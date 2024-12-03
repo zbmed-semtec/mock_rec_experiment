@@ -17,24 +17,17 @@ class Recommender(object):
                 self.idx.append(obj.get('pmid'))
 
     def recommend_publications(self, item_id, page, rpp):
-        # filename = '../data/relish_recoms.jsonl'
+        filename = '../data/relish_recoms.jsonl'
 
-        # recommendations = []
+        recommendations = []
 
-        # # Read the JSONL file
-        # with open(filename, 'r') as file:
-        #     for line in file:
-        #         record = json.loads(line)
-        #         # Check if the record matches the target PMID
-        #         if record['pmid'] == item_id:
-        #             recommendations.append(record)
+        with open(filename, 'r') as file:
+            for line in file:
+                record = json.loads(line)
+                if int(record['pmid']) == int(item_id):
+                    recommendations.append(record)
 
-        # sorted_recommendations = sorted(recommendations, key=lambda x: (x['target_pmid']))
-        # print(sorted_recommendations)
-        # itemlist = [record['target_pmid'] for record in sorted_recommendations[:rpp]]
-        # print(itemlist)
-        # itemlist = recommendations[:rpp]
-        itemlist = random.choices(self.idx, k=rpp)
+        itemlist = sorted([int(record['target_pmid']) for record in recommendations[:rpp]])
 
         return {
             'page': page,
